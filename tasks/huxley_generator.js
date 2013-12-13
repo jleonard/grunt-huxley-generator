@@ -22,10 +22,10 @@ module.exports = function(grunt) {
       screenSizes: [{name:'xl','size':[1200,900]},{name:'l','size':[1024,768]},{name:'m','size':[768,1024]},{name:'s','size':[320,240]},{name:'xs','size':[240,320]}]
     });
 
-    f.dest = f.dest.charAt(f.dest.length - 1) === '/' ? f.dest : f.dest + '/';
+    options.dest = options.dest.charAt(options.dest.length - 1) === '/' ? options.dest : options.dest + '/';
 
     // delete existing huxleyfile
-    grunt.file.delete(huxleyFile,{force:true});
+    grunt.file.delete(options.huxleyFile,{force:true});
 
     var huxleyTests = [];
 
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             obj.screenSize = options.screenSizes[i].size;
             obj.url = url + file_name + '.html' + options.queryString;
             huxleyTests.push(obj);
-            grunt.file.write(f.dest + file_name + '.hux/'+'record.json',huxleyAction);
+            grunt.file.write(options.dest + obj.name + '.hux/'+'record.json',huxleyAction);
           }
           return true;
         }
@@ -64,10 +64,10 @@ module.exports = function(grunt) {
 
     // Write the destination file.
     var data = JSON.stringify(huxleyTests);
-    grunt.file.write(f.dest + options.huxleyFile , data);
+    grunt.file.write(options.dest + options.huxleyFile , data);
 
     // Print a success message.
-    grunt.log.writeln('File "' + f.dest + '" created.');
+    grunt.log.writeln('File "' + options.dest + '" created.');
 
   });
 
